@@ -7,6 +7,81 @@
  *  3 | 4 | 5 
  * ---|---|---
  *  6 | 7 | 8
+ * 
+ * Starting Postions are:
+ * 0, 2, 3, 6
+ * 
+ *   1 - 2 E
+ *  / 
+ * 0 - 4 - 8 SE
+ *  \ 
+ *   3 - 6 S
+ *
+ * 1 - 4 -7 S
+ *
+ * 2 - 5 - 8 S
+ *  \
+ *   4 - 6 SW
+ * 
+ * 3 - 4 - 5 E
+ *
+ * 6 - 7 - 8 E
+ * 
+ * Given a list of strings
+ * [X, O, X, O, X, X, X, O, O]
+ * 
+ * Correpsonding to
+ * 
+ *  X | O | X
+ * -----------
+ *  O | X | X
+ * -----------
+ *  X | O | O
+ * 
+ * i = 0
+ * previousDirection = null
+ * squares[i] = "X"
+ *
+ * adjacents = {
+ *  east: "O",
+ *  south: "O",
+ *  southeast: "X",
+ *  southwest: ()
+ * }
+ * 
+ * Choose next step
+ * -> southeast
+ * 
+ * ---
+ * 
+ * i = 4
+ * previousDirection = SOUTHEAST
+ * squares[i] = "X"
+ * adjacents = {
+ *  east: ()
+ *  south: ()
+ *  southeast: "O"
+ *  southwest: ()
+ * }
+ *
+ * Choose next step
+ * -> NO PATH
+ *
+ * ---
+ *
+ * i = 2
+ * previousDirection = null
+ * squares[i] = "O"
+ * adjacents = {
+ *   east: ()
+ *   south: "X"
+ *   southeast: ()
+ *   southwest: ()
+ * }
+ *
+ * Choose next step
+ * -> NO PATH
+ *
  */
 
 type directionVariant =
@@ -15,25 +90,65 @@ type directionVariant =
   | SOUTH
   | SOUTHWEST;
 
-/* TODO: Actually handle cases */
 let checkInDirection = (i, direction, squares) => {
   switch (direction) {
     | SOUTH when i <= 5 => squares[i+3]
     | SOUTH => ()
-    | SOUTHEAST when Num.i mod 4 == 0 => squares[i+4]
-    | EAST => squares[i+1]
-    | SOUTHWEST => squares[i+2]
+    | SOUTHEAST when i mod 4 == 0 => squares[i+4]
+    | SOUTHEAST => ()
+    | EAST when i mod 3 == 0 => squares[i+1]
+    | EAST => ()
+    | SOUTHWEST when i mod 2  == 0 && i > 6 => squares[i+2]
+    | SOUTHWEST => ()
   };
 };
 
-/* Know which cells are adjacent to what */
-let checkAdjacent = (_i, _squares) => {
+let checkAdjacent = (i, squares) => {
+  switch(i) {
+  | _ => ()
+  };
+}
 
+
+let lookForPath = (i, squares, ~direction=()) => {
+    let adjacents = checkAdjacent(i, squares)
+};
+
+let investigatePath = () => {};
+
+type adjacentSquares = {
+    east: string,
+    southeast: string,
+    south: string,
+    southwest: string
+}
+
+/* Know which cells are adjacent to what */
+let checkAdjacent = (i, squares) => {
+    switch (i) {
+    | 0 => {east: checkInDirection(0, EAST, squares)}
+    | 1 =>
+    | 2 =>
+    | 3 =>
+    | 4 =>
+    | 5 =>
+    | 6 =>
+    | 7 =>
+    | _ => ()
+    };
+};
+
+let calculateWinner = (i, squares) => {
+  switch (i) {
+    | 
+    | _ => ()
+  }
 };
 
 let calculateWinner = squares => {
   switch (squares) {
-  | [||] => ""
+  | "" => ""
+  | 
   | _ => ""
   };
 };
@@ -52,12 +167,6 @@ let make = () => {
   };
 
   let renderSquare = i => <Square value={i |> Array.get(squares)} onClick={() => handleClick(i)} />;
-
-
-
-
-
-
   
   let winner = calculateWinner(squares);
   let status = () => {
